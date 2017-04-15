@@ -1,0 +1,14 @@
+version: '2'
+services:
+  mariadb:
+    build: .
+    image: com.ragedunicorn/mariadb:1.0-stable
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    expose:
+      - "3306"
+    labels:
+      com.ragedunicorn.mariadb.environment: "prod"
+      com.ragedunicorn.mariadb.description: "MariaDB"
+volumes:
+  mariadb_data: {}
