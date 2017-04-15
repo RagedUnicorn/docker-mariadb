@@ -1,6 +1,6 @@
 # docker-mariadb
 
-> A docker container for MariaDB based on Alpine-Linux
+> A docker base to build a container for MariaDB based on Alpine-Linux
 
 This container is intended to build a base for providing a database to an application stack.
 
@@ -77,8 +77,12 @@ coniguration. This will also allow external clients to connect to the database. 
 docker-compose -f docker-compose-dev.yml up -d
 ```
 
-By default the launchscript `/sbin/launch.sh` will not be used to start the MariaDB process. Instead the container will be setup to keep `stdin_open` open and allocating a pseudo `tty`. This allows for connecting to a shell and work on the container. MariaDB itself can still be started with `/sbin/launch.sh`.
+By default the launchscript `/docker-entrypoint.sh` will not be used to start the MariaDB process. Instead the container will be setup to keep `stdin_open` open and allocating a pseudo `tty`. This allows for connecting to a shell and work on the container. MariaDB itself can be started with `./docker-entrypoint.sh`.
 
+## Links
+
+Alpine Linux packages database
+- https://pkgs.alpinelinux.org/packages
 
 ## License
 
