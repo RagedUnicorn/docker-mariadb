@@ -43,12 +43,12 @@ set_init_done() {
 }
 
 init() {
-  if `test -f "${MARIADB_DATA_DIR}/.init"`; then
+  if [ -f  "${MARIADB_DATA_DIR}/.init" ]; then
     echo "$(date) [INFO]: Init script already run - starting MariaDB"
     # check if run directory exists
     create_run_dir
     # start mariadb in foreground with base- and datadir set
-    exec su-exec ${MARIADB_USER} /usr/bin/mysqld_safe  --basedir="${MARIADB_BASE_DIR}" --datadir="${MARIADB_DATA_DIR}"
+    exec su-exec "${MARIADB_USER}" /usr/bin/mysqld_safe  --basedir="${MARIADB_BASE_DIR}" --datadir="${MARIADB_DATA_DIR}"
   else
     echo "$(date) [INFO]: First time setup - running init script"
     create_data_dir
@@ -57,10 +57,9 @@ init() {
     if [ -f "${mariadb_app_user}" ] && [ -f "${mariadb_app_user_password}" ] && [ -f "${mariadb_root_password}" ]; then
       echo "$(date) [INFO]: Found docker secrets - using secrets to setup mariadb"
 
+      mariadb_root_password="$(cat ${mariadb_root_password})"
       mariadb_app_user="$(cat ${mariadb_app_user})"
       mariadb_app_user_password="$(cat ${mariadb_app_user_password})"
-      mariadb_root_user="$(cat ${mariadb_root_password})"
-
     else
       echo "$(date) [INFO]: No docker secrets found - using environment variables"
 
@@ -93,15 +92,13 @@ init() {
       echo "$(date) [INFO]: Waiting for confirmation of MariaDB service startup, trying ${i}/${LOOP_LIMIT} ..."
       sleep 5
       mysql -uroot -e "status" > /dev/null 2>&1 && break
-      i=`expr $i + 1`
+      i=$($i + 1)
     done
 
     # create new user and grant remote access
     echo "$(date) [INFO]: Creating new user ${mariadb_app_user}"
     sed -e "s/{{password}}/${mariadb_app_user_password}/g" \
       -e "s/{{user}}/${mariadb_app_user}/g" /home/user.sql | mysql -uroot;
-
-    mysql_secure
 
     if [ $? -ne 0 ]; then
       echo "$(date) [ERROR]: Failed to create new user";
@@ -110,13 +107,15 @@ init() {
       echo "$(date) [INFO]: Created new app user"
     fi
 
+    mysql_secure
+
     echo "$(date) [INFO]: Finished database setup"
 
     mysqladmin -uroot -p"${mariadb_root_password}" shutdown
 
     set_init_done
     # start mariadb in foreground
-    exec su-exec ${MARIADB_USER} /usr/bin/mysqld_safe --basedir="${MARIADB_BASE_DIR}" --datadir="${MARIADB_DATA_DIR}"
+    exec su-exec "${MARIADB_USER}" /usr/bin/mysqld_safe --basedir="${MARIADB_BASE_DIR}" --datadir="${MARIADB_DATA_DIR}"
   fi
 }
 
