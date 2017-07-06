@@ -6,7 +6,7 @@
 set -o nounset
 
 # variable setup
-DOCKER_MARIADB_TAG="com.ragedunicorn/mariadb"
+DOCKER_MARIADB_TAG="ragedunicorn/mariadb"
 DOCKER_MARIADB_NAME="mariadb"
 DOCKER_MARIADB_DATA_VOLUME="mariadb_data"
 DOCKER_MARIADB_ID=0
