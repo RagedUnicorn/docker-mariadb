@@ -81,18 +81,18 @@ init() {
     /usr/bin/mysqld_safe --bind-address=localhost --basedir="${MARIADB_BASE_DIR}" --datadir="${MARIADB_DATA_DIR}" &
 
     LOOP_LIMIT=13
-    i=0
+    i=1
 
     while true
     do
-      if [ ${i} -eq ${LOOP_LIMIT} ]; then
+      if [ ${i} -gt ${LOOP_LIMIT} ]; then
         echo "$(date) [ERROR]: Timeout error, failed to start MariaDB server"
         exit 1
       fi
       echo "$(date) [INFO]: Waiting for confirmation of MariaDB service startup, trying ${i}/${LOOP_LIMIT} ..."
       sleep 5
       mysql -uroot -e "status" > /dev/null 2>&1 && break
-      i=$($i + 1)
+      i=$(($i+1))
     done
 
     # create new user and grant remote access
