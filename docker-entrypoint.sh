@@ -30,7 +30,7 @@ init() {
     # check if run directory exists
     create_run_dir
     # start mysql in foreground with base- and datadir set
-    exec gosu ${MARIADB_USER} /usr/bin/mysqld_safe  --basedir="${MARIADB_BASE_DIR}" --datadir="${MARIADB_DATA_DIR}"
+    exec su-exec ${MARIADB_USER} /usr/bin/mysqld_safe --basedir="${MARIADB_BASE_DIR}" --datadir="${MARIADB_DATA_DIR}"
   else
     echo "$(date) [INFO]: First time setup - running init script"
     create_data_dir
@@ -82,7 +82,7 @@ init() {
 
     set_init_done
     # start mysql in foreground
-    exec gosu ${MARIADB_USER} /usr/bin/mysqld_safe --basedir="${MARIADB_BASE_DIR}" --datadir="${MARIADB_DATA_DIR}"
+    exec su-exec ${MARIADB_USER} /usr/bin/mysqld_safe --basedir="${MARIADB_BASE_DIR}" --datadir="${MARIADB_DATA_DIR}"
   fi
 }
 

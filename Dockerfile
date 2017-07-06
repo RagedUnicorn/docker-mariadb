@@ -10,6 +10,11 @@ LABEL com.ragedunicorn.maintainer="Michael Wiesendanger <michael.wiesendanger@gm
 #/_/  /_/\__,_/_/  /_/\__,_/_____/_____/
 
 ENV \
+  MARIADB_SERVER_VERSION=10.1.22-r0 \
+  MARIADB_CLIENT_VERSION=10.1.22-r0 \
+  SU_EXEC_VERSION=0.2-r0
+
+ENV \
   MARIADB_USER=mysql \
   MARIADB_BASE_DIR=/usr \
   MARIADB_DATA_DIR=/var/lib/mysql \
@@ -17,31 +22,19 @@ ENV \
   MARIADB_APP_USER=app \
   MARIADB_APP_PASSWORD=app
 
-ENV \
-  GOSU_VERSION=1.10 \
-  MARIADB_SERVER_VERSION=10.1.22-r0 \
-  MARIADB_CLIENT_VERSION=10.1.22-r0
 
 # explicitly set user/group IDs
 RUN addgroup -S "${MARIADB_USER}" -g 9999 && adduser -S -G "${MARIADB_USER}" -u 9999 "${MARIADB_USER}"
 
 RUN \
-  apk add --no-cache --virtual .gosu-deps dpkg gnupg openssl && \
-  dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')" && \
-  wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch" && \
-  wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch.asc" && \
-  export GNUPGHOME && \
-  GNUPGHOME="$(mktemp -d)" && \
-  gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 && \
-  gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu && \
-  rm -r "$GNUPGHOME" /usr/local/bin/gosu.asc && \
-  chmod +x /usr/local/bin/gosu && \
-  gosu nobody true && \
-  apk del .gosu-deps
+  set -ex; \
+  apk add --no-cache su-exec="${SU_EXEC_VERSION}"
 
-# using no-cache option to avoid apk update and removing of /var/chache/apk/*
 RUN \
-  apk add --no-cache mariadb="${MARIADB_SERVER_VERSION}" mariadb-client="${MARIADB_CLIENT_VERSION}"
+  set -ex; \
+  apk add --no-cache \
+    mariadb="${MARIADB_SERVER_VERSION}" \
+    mariadb-client="${MARIADB_CLIENT_VERSION}"
 
 # add custom mysql conf
 COPY conf/my.cnf conf/mysqld_charset.cnf /etc/mysql/
