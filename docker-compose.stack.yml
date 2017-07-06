@@ -1,0 +1,22 @@
+version: '3.3'
+services:
+  mariadb:
+    image: com.ragedunicorn/mariadb:1.0-stable
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    secrets:
+      - com.ragedunicorn.mariadb.root_password
+      - com.ragedunicorn.mariadb.app_user
+      - com.ragedunicorn.mariadb.app_user_password
+    labels:
+      com.ragedunicorn.mariadb.environment: "prod"
+      com.ragedunicorn.mariadb.description: "MariaDB"
+volumes:
+  mariadb_data: {}
+secrets:
+  com.ragedunicorn.mariadb.root_password:
+    external: true
+  com.ragedunicorn.mariadb.app_user:
+    external: true
+  com.ragedunicorn.mariadb.app_user_password:
+    external: true

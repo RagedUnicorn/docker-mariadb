@@ -19,6 +19,7 @@ ENV \
   MARIADB_BASE_DIR=/usr \
   MARIADB_DATA_DIR=/var/lib/mysql \
   MARIADB_RUN_DIR=/run/mysqld \
+  MARIADB_ROOT_PASSWORD=root \
   MARIADB_APP_USER=app \
   MARIADB_APP_PASSWORD=app
 
