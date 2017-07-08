@@ -25,6 +25,36 @@ To stop all services from the docker-compose file
 docker-compose down
 ```
 
+### Creating a stack
+
+To create a stack the specific `docker-compose.stack.yml` file can be used. It requires that you already built the image that is consumed by the stack or that it is available in a reachable docker repository.
+
+```
+docker-compose build --no-cache
+```
+
+**Note:** You will get a warning that external secrets are not supported by docker-compose if you try to use this file with docker-compose.
+
+#### Join a swarm
+
+```
+docker swarm init
+```
+
+#### Create secrets
+```
+echo "some_password" | docker secret create com.ragedunicorn.mariadb.root_password -
+echo "app_user" | docker secret create com.ragedunicorn.mariadb.app_user -
+echo "app_user_password" | docker secret com.ragedunicorn.mariadb.app_user_password -
+```
+
+#### Deploy stack
+```
+docker stack deploy --compose-file=docker-compose.stack.yml [stackname]
+```
+
+For a production deployment a stack should be deployed. The secret will then be taken into account and MariaDB will be setup accordingly.
+
 ## Dockery
 
 In the dockery folder are some scripts that help out avoiding retyping long docker commands but are mostly intended for playing around with the container.
