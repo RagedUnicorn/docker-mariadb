@@ -13,13 +13,13 @@ create_data_dir() {
   echo "$(date) [INFO]: Creating data directory ${MARIADB_DATA_DIR} and setting permissions"
   mkdir -p "${MARIADB_DATA_DIR}"
   chmod -R 0700 "${MARIADB_DATA_DIR}"
-  chown -R "${MARIADB_USER}":"${MARIADB_USER}" "${MARIADB_DATA_DIR}"
+  chown -R "${MARIADB_USER}":"${MARIADB_GROUP}" "${MARIADB_DATA_DIR}"
 }
 
 create_run_dir() {
   echo "$(date) [INFO]: Creating run directory ${MARIADB_RUN_DIR} and setting permissions"
   mkdir -p "${MARIADB_RUN_DIR}"
-  chown -R "${MARIADB_USER}":"${MARIADB_USER}" "${MARIADB_RUN_DIR}"
+  chown -R "${MARIADB_USER}":"${MARIADB_GROUP}" "${MARIADB_RUN_DIR}"
 }
 
 # replicating what mysql_secure_installation is doing
