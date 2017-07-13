@@ -24,17 +24,13 @@ ENV \
   MARIADB_APP_USER=app \
   MARIADB_APP_PASSWORD=app
 
-
 # explicitly set user/group IDs
 RUN addgroup -S "${MARIADB_GROUP}" -g 9999 && adduser -S -G "${MARIADB_GROUP}" -u 9999 "${MARIADB_USER}"
 
 RUN \
   set -ex; \
-  apk add --no-cache su-exec="${SU_EXEC_VERSION}"
-
-RUN \
-  set -ex; \
   apk add --no-cache \
+    su-exec="${SU_EXEC_VERSION}" \
     mariadb="${MARIADB_SERVER_VERSION}" \
     mariadb-client="${MARIADB_CLIENT_VERSION}"
 
