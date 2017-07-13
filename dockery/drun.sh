@@ -27,10 +27,12 @@ else
   ## run image:
   # -v mount volume
   # -d run in detached mode
+  # -i Keep STDIN open even if not attached
+  # -t Allocate a pseudo-tty
   # --name define a name for the container(optional)
   DOCKER_MARIADB_ID=$(docker run \
   -v ${DOCKER_MARIADB_DATA_VOLUME}:/var/lib/mysql \
-  -d \
+  -dit \
   --name "${DOCKER_MARIADB_NAME}" "${DOCKER_MARIADB_TAG}")
 fi
 
