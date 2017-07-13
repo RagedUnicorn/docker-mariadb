@@ -5,6 +5,8 @@
 # abort when trying to use unset variable
 set -o nounset
 
+WD="${PWD}"
+
 # variable setup
 DOCKER_MARIADB_TAG="ragedunicorn/mariadb"
 DOCKER_MARIADB_NAME="mariadb"
@@ -39,3 +41,5 @@ if [ $? -eq 0 ]; then
 else
   echo "$(date) [ERROR]: Failed to start container - ${DOCKER_MARIADB_NAME}"
 fi
+
+cd "${WD}"

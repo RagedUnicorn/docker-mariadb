@@ -10,6 +10,8 @@ DOCKER_MARIADB_TAG="ragedunicorn/mariadb"
 DOCKER_MARIADB_NAME="mariadb"
 DOCKER_MARIADB_DATA_VOLUME="mariadb_data"
 
+WD="${PWD}"
+
 # get absolute path to script and change context to script folder
 SCRIPTPATH="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)"
 cd "${SCRIPTPATH}"
@@ -28,3 +30,5 @@ else
   echo "$(date) [INFO]: Creating new volume: ${DOCKER_MARIADB_DATA_VOLUME}"
   docker volume create --name "${DOCKER_MARIADB_DATA_VOLUME}" > /dev/null
 fi
+
+cd "${WD}"

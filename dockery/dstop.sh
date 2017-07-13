@@ -5,6 +5,8 @@
 # abort when trying to use unset variable
 set -o nounset
 
+WD="${PWD}"
+
 # variable setup
 DOCKER_MARIADB="mariadb"
 
@@ -22,3 +24,5 @@ if [ $? -eq 0 ]; then
 else
   echo "$(date) [INFO]: No running container with name: ${DOCKER_MARIADB} found"
 fi
+
+cd "${WD}"
