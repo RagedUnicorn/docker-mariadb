@@ -16,6 +16,7 @@ ENV \
 
 ENV \
   MARIADB_USER=mysql \
+  MARIADB_GROUP=mysql \
   MARIADB_BASE_DIR=/usr \
   MARIADB_DATA_DIR=/var/lib/mysql \
   MARIADB_RUN_DIR=/run/mysqld \
@@ -25,7 +26,7 @@ ENV \
 
 
 # explicitly set user/group IDs
-RUN addgroup -S "${MARIADB_USER}" -g 9999 && adduser -S -G "${MARIADB_USER}" -u 9999 "${MARIADB_USER}"
+RUN addgroup -S "${MARIADB_GROUP}" -g 9999 && adduser -S -G "${MARIADB_GROUP}" -u 9999 "${MARIADB_USER}"
 
 RUN \
   set -ex; \
@@ -48,9 +49,9 @@ COPY docker-entrypoint.sh /
 
 RUN \
   chmod 644 /etc/mysql/my.cnf && \
-  chown mysql /etc/mysql/my.cnf && \
+  chown "${MARIADB_USER}":"${MARIADB_GROUP}" /etc/mysql/my.cnf && \
   chmod 644 /etc/mysql/mysqld_charset.cnf && \
-  chown mysql /etc/mysql/mysqld_charset.cnf && \
+  chown "${MARIADB_USER}":"${MARIADB_GROUP}" /etc/mysql/mysqld_charset.cnf && \
   chmod 755 docker-entrypoint.sh
 
 EXPOSE 3306
