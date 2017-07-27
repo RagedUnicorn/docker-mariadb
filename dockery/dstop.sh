@@ -8,21 +8,21 @@ set -o nounset
 WD="${PWD}"
 
 # variable setup
-DOCKER_MARIADB="mariadb"
+DOCKER_MARIADB_NAME="mariadb"
 
 # get absolute path to script and change context to script folder
 SCRIPTPATH="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)"
 cd "${SCRIPTPATH}"
 
 # search running container
-docker ps | grep "${DOCKER_MARIADB}" > /dev/null
+docker ps | grep "${DOCKER_MARIADB_NAME}" > /dev/null
 
 # if container is running - stop it
 if [ $? -eq 0 ]; then
-  echo "$(date) [INFO]: Stopping container "${DOCKER_MARIADB}" ..."
-  docker stop "${DOCKER_MARIADB}" > /dev/null
+  echo "$(date) [INFO]: Stopping container "${DOCKER_MARIADB_NAME}" ..."
+  docker stop "${DOCKER_MARIADB_NAME}" > /dev/null
 else
-  echo "$(date) [INFO]: No running container with name: ${DOCKER_MARIADB} found"
+  echo "$(date) [INFO]: No running container with name: ${DOCKER_MARIADB_NAME} found"
 fi
 
 cd "${WD}"
