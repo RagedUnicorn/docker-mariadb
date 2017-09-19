@@ -2,7 +2,7 @@ version: '3.3'
 services:
   mariadb:
     build: .
-    image: com.ragedunicorn/mariadb:1.0.0-stable
+    image: ragedunicorn/mariadb:1.0.0-stable
     volumes:
       - mariadb_data:/var/lib/mysql
     expose:
