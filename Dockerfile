@@ -10,11 +10,6 @@ LABEL com.ragedunicorn.maintainer="Michael Wiesendanger <michael.wiesendanger@gm
 #/_/  /_/\__,_/_/  /_/\__,_/_____/_____/
 
 ENV \
-  MARIADB_SERVER_VERSION=10.1.22-r1 \
-  MARIADB_CLIENT_VERSION=10.1.22-r1 \
-  SU_EXEC_VERSION=0.2-r0
-
-ENV \
   MARIADB_USER=mysql \
   MARIADB_GROUP=mysql \
   MARIADB_BASE_DIR=/usr \
@@ -30,9 +25,9 @@ RUN addgroup -S "${MARIADB_GROUP}" -g 9999 && adduser -S -G "${MARIADB_GROUP}" -
 RUN \
   set -ex; \
   apk add --no-cache \
-    su-exec="${SU_EXEC_VERSION}" \
-    mariadb="${MARIADB_SERVER_VERSION}" \
-    mariadb-client="${MARIADB_CLIENT_VERSION}"
+    su-exec \
+    mariadb \
+    mariadb-client
 
 # add custom mysql conf
 COPY conf/my.cnf conf/mysqld_charset.cnf /etc/mysql/
