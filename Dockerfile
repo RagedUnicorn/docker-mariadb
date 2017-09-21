@@ -10,8 +10,8 @@ LABEL com.ragedunicorn.maintainer="Michael Wiesendanger <michael.wiesendanger@gm
 #/_/  /_/\__,_/_/  /_/\__,_/_____/_____/
 
 ENV \
-  MARIADB_SERVER_VERSION=10.1.22-r1 \
-  MARIADB_CLIENT_VERSION=10.1.22-r1 \
+  MARIADB_SERVER_VERSION=10.1.26-r0 \
+  MARIADB_CLIENT_VERSION=10.1.26-r0 \
   SU_EXEC_VERSION=0.2-r0
 
 ENV \
