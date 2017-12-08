@@ -1,7 +1,6 @@
 FROM alpine:3.7
 
-LABEL com.ragedunicorn.maintainer="Michael Wiesendanger <michael.wiesendanger@gmail.com>" \
-  com.ragedunicorn.version="1.0"
+LABEL com.ragedunicorn.maintainer="Michael Wiesendanger <michael.wiesendanger@gmail.com>"
 
 #    __  ___           _       ____  ____
 #   /  |/  /___ ______(_)___ _/ __ \/ __ )
