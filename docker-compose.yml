@@ -7,6 +7,11 @@ services:
       - mariadb_data:/var/lib/mysql
     expose:
       - "3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
     labels:
       com.ragedunicorn.mariadb.environment: "prod"
       com.ragedunicorn.mariadb.description: "MariaDB"

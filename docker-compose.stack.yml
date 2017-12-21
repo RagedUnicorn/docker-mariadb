@@ -8,6 +8,11 @@ services:
       - com.ragedunicorn.mariadb.root_password
       - com.ragedunicorn.mariadb.app_user
       - com.ragedunicorn.mariadb.app_user_password
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
     labels:
       com.ragedunicorn.mariadb.environment: "prod"
       com.ragedunicorn.mariadb.description: "MariaDB"
