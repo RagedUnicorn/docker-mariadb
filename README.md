@@ -45,7 +45,7 @@ docker swarm init
 ```
 echo "some_password" | docker secret create com.ragedunicorn.mariadb.root_password -
 echo "app_user" | docker secret create com.ragedunicorn.mariadb.app_user -
-echo "app_user_password" | docker secret com.ragedunicorn.mariadb.app_user_password -
+echo "app_user_password" | docker secret create com.ragedunicorn.mariadb.app_user_password -
 ```
 
 #### Deploy stack
