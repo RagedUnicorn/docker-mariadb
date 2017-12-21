@@ -1,7 +1,7 @@
 version: '3.4'
 services:
   mariadb:
-    image: ragedunicorn/mariadb:1.0.2-stable
+    image: ragedunicorn/mariadb:1.0.3-stable
     volumes:
       - mariadb_data:/var/lib/mysql
     secrets:
