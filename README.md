@@ -1,10 +1,14 @@
 # docker-mariadb
 
-> A docker base to build a container for MariaDB based on Alpine-Linux
+> A docker base image to build a container for MariaDB based on Alpine-Linux
 
-This container is intended to build a base for providing a database to an application stack.
+This image is intended to build a base for providing a database to an application stack.
 
-### Using the image
+## Version
+
+* MariaDB 10
+
+## Using the image
 
 #### Start container
 
