@@ -2,7 +2,7 @@ version: '3.4'
 services:
   mariadb:
     build: .
-    image: ragedunicorn/mariadb:1.0.3-dev
+    image: ragedunicorn/mariadb:1.0.4-dev
     volumes:
       - mariadb_data:/var/lib/mysql
     ports:
