@@ -1,0 +1,22 @@
+schemaVersion: 2.0.0
+
+metadataTest:
+  env:
+    - key: 'MARIADB_USER'
+      value: 'mysql'
+    - key: 'MARIADB_GROUP'
+      value: 'mysql'
+    - key: 'MARIADB_APP_USER'
+      value: 'app'
+    - key: 'MARIADB_BASE_DIR'
+      value: '/usr'
+    - key: 'MARIADB_DATA_DIR'
+      value: '/var/lib/mysql'
+    - key: 'MARIADB_RUN_DIR'
+      value: '/run/mysqld'
+  labels:
+    - key: 'com.ragedunicorn.maintainer'
+      value: 'Michael Wiesendanger <michael.wiesendanger@gmail.com>'
+  exposedPorts: ["3306"]
+  volumes: ["/var/lib/mysql"]
+  entrypoint: ["/docker-entrypoint.sh"]

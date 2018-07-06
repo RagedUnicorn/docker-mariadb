@@ -1,0 +1,56 @@
+version: '3.6'
+services:
+  container-test:
+    image: ragedunicorn/container-test:${CONTAINER_STRUCTURE_TEST_VERSION}-stable
+    volumes:
+        - ./test/:/test
+        - /var/run/docker.sock:/var/run/docker.sock
+    command: ["--image", "ragedunicorn/mariadb:${MARIADB_TAG_VERSION}-stable", "--config", "/test/mariadb_test.yml"]
+    labels:
+      com.ragedunicorn.container-test.environment: "test"
+      com.ragedunicorn.container-test.description: "Google Container Structure Test"
+  container-test-metadata:
+    image: ragedunicorn/container-test:${CONTAINER_STRUCTURE_TEST_VERSION}-stable
+    volumes:
+        - ./test/:/test
+        - /var/run/docker.sock:/var/run/docker.sock
+    command: ["--image", "ragedunicorn/mariadb:${MARIADB_TAG_VERSION}-stable", "--config", "/test/mariadb_metadata_test.yml"]
+    labels:
+      com.ragedunicorn.container-test.environment: "test"
+      com.ragedunicorn.container-test.description: "Google Container Structure Test"
+  container-test-command:
+    image: ragedunicorn/container-test:${CONTAINER_STRUCTURE_TEST_VERSION}-stable
+    volumes:
+        - ./test/:/test
+        - /var/run/docker.sock:/var/run/docker.sock
+    command: ["--image", "ragedunicorn/mariadb:${MARIADB_TAG_VERSION}-stable", "--config", "/test/mariadb_command_test.yml"]
+    labels:
+      com.ragedunicorn.container-test.environment: "test"
+      com.ragedunicorn.container-test.description: "Google Container Structure Test"
+  container-dev-test:
+    image: ragedunicorn/container-test:${CONTAINER_STRUCTURE_TEST_VERSION}-stable
+    volumes:
+        - ./test/:/test
+        - /var/run/docker.sock:/var/run/docker.sock
+    command: ["--image", "ragedunicorn/mariadb:${MARIADB_TAG_VERSION}-dev", "--config", "/test/mariadb_test.yml"]
+    labels:
+      com.ragedunicorn.container-test.environment: "test"
+      com.ragedunicorn.container-test.description: "Google Container Structure Test"
+  container-dev-test-metadata:
+    image: ragedunicorn/container-test:${CONTAINER_STRUCTURE_TEST_VERSION}-stable
+    volumes:
+        - ./test/:/test
+        - /var/run/docker.sock:/var/run/docker.sock
+    command: ["--image", "ragedunicorn/mariadb:${MARIADB_TAG_VERSION}-dev", "--config", "/test/mariadb_metadata_test.yml"]
+    labels:
+      com.ragedunicorn.container-test.environment: "test"
+      com.ragedunicorn.container-test.description: "Google Container Structure Test"
+  container-dev-test-command:
+    image: ragedunicorn/container-test:${CONTAINER_STRUCTURE_TEST_VERSION}-stable
+    volumes:
+        - ./test/:/test
+        - /var/run/docker.sock:/var/run/docker.sock
+    command: ["--image", "ragedunicorn/mariadb:${MARIADB_TAG_VERSION}-dev", "--config", "/test/mariadb_command_test.yml"]
+    labels:
+      com.ragedunicorn.container-test.environment: "test"
+      com.ragedunicorn.container-test.description: "Google Container Structure Test"

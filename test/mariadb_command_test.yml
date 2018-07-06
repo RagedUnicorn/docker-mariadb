@@ -1,0 +1,20 @@
+schemaVersion: 2.0.0
+
+commandTests:
+- name: 'su_exec_installation'
+  command: "which"
+  args: ["su-exec"]
+  expectedOutput: ["/sbin/su-exec"]
+  exitCode: 0
+- name: 'mysqld_safe_installation'
+  command: "which"
+  args: ["mysqld_safe"]
+  expectedOutput: ["/usr/bin/mysqld_safe"]
+  exitCode: 0
+- name: 'mysql_version'
+  command: "mysql"
+  args: ["--version"]
+  expectedOutput: [
+    "mysql  Ver 15\\.1 Distrib 10\\.1\\.32-MariaDB.*Linux \\(x86_64\\)"
+  ]
+  exitCode: 0
