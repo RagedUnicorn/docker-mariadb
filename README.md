@@ -101,7 +101,7 @@ Most of the configuration can be changed with the `my.cnf` and `mysqld_charset.c
 
 #### Default user
 
-First time starting up the container a user based on the values of `MARIADB_APP_USER` and `MARIADB_APP_PASSWORD` environmental values is created. This user is also allowed to make external connections and can be used by other services to interact with the database. To modify the setup of this users have a look into `conf/user.sql`.
+First time starting up the container a user based on the values of `MARIADB_APP_USER` and `MARIADB_APP_PASSWORD` environmental values is created. This user is also allowed to make external connections and can be used by other services to interact with the database. To modify the setup of this users have a look into `config/user.sql`.
 
 ## Healthcheck
 

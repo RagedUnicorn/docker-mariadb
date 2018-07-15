@@ -33,11 +33,11 @@ RUN \
     mariadb="${MARIADB_SERVER_VERSION}" \
     mariadb-client="${MARIADB_CLIENT_VERSION}"
 
-# add custom mysql conf
-COPY conf/my.cnf conf/mysqld_charset.cnf /etc/mysql/
+# add custom mysql config
+COPY config/my.cnf config/mysqld_charset.cnf /etc/mysql/
 
 # add init scripts for mysql
-COPY conf/user.sql /home/user.sql
+COPY config/user.sql /home/user.sql
 
 # add launch script
 COPY docker-entrypoint.sh /
