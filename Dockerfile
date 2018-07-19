@@ -8,20 +8,27 @@ LABEL com.ragedunicorn.maintainer="Michael Wiesendanger <michael.wiesendanger@gm
 # / /  / / /_/ / /  / / /_/ / /_/ / /_/ /
 #/_/  /_/\__,_/_/  /_/\__,_/_____/_____/
 
+# image args
+ARG MARIADB_USER=mysql
+ARG MARIADB_GROUP=mysql
+ARG MARIADB_APP_USER=app
+ARG MARIADB_APP_PASSWORD=app
+ARG MARIADB_ROOT_PASSWORD=root
+
 ENV \
   MARIADB_SERVER_VERSION=10.1.32-r0 \
   MARIADB_CLIENT_VERSION=10.1.32-r0 \
   SU_EXEC_VERSION=0.2-r0
 
 ENV \
-  MARIADB_USER=mysql \
-  MARIADB_GROUP=mysql \
+  MARIADB_USER="${MARIADB_USER}" \
+  MARIADB_GROUP="${MARIADB_GROUP}" \
+  MARIADB_ROOT_PASSWORD="${MARIADB_ROOT_PASSWORD}" \
+  MARIADB_APP_USER="${MARIADB_APP_USER}" \
+  MARIADB_APP_PASSWORD="${MARIADB_APP_PASSWORD}" \
   MARIADB_BASE_DIR=/usr \
   MARIADB_DATA_DIR=/var/lib/mysql \
-  MARIADB_RUN_DIR=/run/mysqld \
-  MARIADB_ROOT_PASSWORD=root \
-  MARIADB_APP_USER=app \
-  MARIADB_APP_PASSWORD=app
+  MARIADB_RUN_DIR=/run/mysqld
 
 # explicitly set user/group IDs
 RUN addgroup -S "${MARIADB_GROUP}" -g 9999 && adduser -S -G "${MARIADB_GROUP}" -u 9999 "${MARIADB_USER}"
