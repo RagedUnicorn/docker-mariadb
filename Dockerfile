@@ -57,8 +57,8 @@ RUN \
   chown "${MARIADB_USER}":"${MARIADB_GROUP}" /etc/mysql/my.cnf && \
   chmod 644 /etc/mysql/mysqld_charset.cnf && \
   chown "${MARIADB_USER}":"${MARIADB_GROUP}" /etc/mysql/mysqld_charset.cnf && \
-  chmod 755 docker-entrypoint.sh && \
-  chmod 755 docker-healthcheck.sh
+  chmod 755 /docker-entrypoint.sh && \
+  chmod 755 /docker-healthcheck.sh
 
 EXPOSE 3306
 
