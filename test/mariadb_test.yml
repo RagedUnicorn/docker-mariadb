@@ -17,3 +17,7 @@ fileExistenceTests:
   path: '/docker-entrypoint.sh'
   shouldExist: true
   permissions: '-rwxr-xr-x'
+- name: 'docker_healthcheck'
+  path: '/docker-healthcheck.sh'
+  shouldExist: true
+  permissions: '-rwxr-xr-x'
