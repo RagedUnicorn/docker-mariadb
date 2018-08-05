@@ -99,6 +99,14 @@ sh dockery/dstop.sh
 
 Most of the configuration can be changed with the `my.cnf` and `mysqld_charset.cnf`configuration files. Both of those files are copied into the container on buildtime. After a change to one of those files the container must be rebuilt.
 
+#### Build Args
+
+The image allows for certain arguments being overridden by build args.
+
+`MARIADB_USER, MARIADB_GROUP, MARIADB_APP_USER, MARIADB_APP_PASSWORD, MARIADB_ROOT_PASSWORD`
+
+They all have a default value and don't have to be overridden. For details see the Dockerfile.
+
 #### Default user
 
 First time starting up the container a user based on the values of `MARIADB_APP_USER` and `MARIADB_APP_PASSWORD` environmental values is created. This user is also allowed to make external connections and can be used by other services to interact with the database. To modify the setup of this users have a look into `config/user.sql`.
