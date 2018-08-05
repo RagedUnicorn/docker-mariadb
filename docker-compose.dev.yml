@@ -10,6 +10,7 @@ services:
     stdin_open: true
     tty: true
     entrypoint: /bin/sh
+    start_period: 1m
     labels:
       com.ragedunicorn.mariadb.environment: "dev"
       com.ragedunicorn.mariadb.description: "MariaDB"
