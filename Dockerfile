@@ -1,4 +1,4 @@
-FROM alpine:3.8
+FROM alpine:3.9.2
 
 LABEL com.ragedunicorn.maintainer="Michael Wiesendanger <michael.wiesendanger@gmail.com>"
 
@@ -16,8 +16,8 @@ ARG MARIADB_APP_PASSWORD=app
 ARG MARIADB_ROOT_PASSWORD=root
 
 ENV \
-  MARIADB_SERVER_VERSION=10.2.15-r0 \
-  MARIADB_CLIENT_VERSION=10.2.15-r0 \
+  MARIADB_SERVER_VERSION=10.3.13-r0 \
+  MARIADB_CLIENT_VERSION=10.3.13-r0 \
   SU_EXEC_VERSION=0.2-r0
 
 ENV \
