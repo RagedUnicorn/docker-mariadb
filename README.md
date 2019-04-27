@@ -152,7 +152,7 @@ docker-compose -f docker-compose.test.yml up container-dev-test-metadata
 ## Development
 
 To debug the container and get more insight into the container use the `docker-compose-dev.yml`
-coniguration. This will also allow external clients to connect to the database. By default the port `3306` will be publicly exposed.
+configuration. This will also allow external clients to connect to the database. By default the port `3306` will be publicly exposed.
 
 ```
 docker-compose -f docker-compose-dev.yml up -d
