@@ -97,7 +97,7 @@ sh dockery/dstop.sh
 
 ## Configuration
 
-Most of the configuration can be changed with the `my.cnf` and `mysqld_charset.cnf`configuration files. Both of those files are copied into the container on buildtime. After a change to one of those files the container must be rebuilt.
+Most of the configuration can be changed with the `my.cnf` and `mysqld_charset.cnf` configuration files. Both of those files are copied into the container on buildtime. After a change to one of those files the container must be rebuilt.
 
 #### Build Args
 
@@ -117,7 +117,7 @@ The container is storing data in the docker volume configured by the environment
 
 ## Healthcheck
 
-The production and the stack image supports a simple healthcheck whether the container is healthy or not. This can be configured inside `docker-compose.yml` or `docker-compose.stack.yml`
+The production and the stack image supports a simple healthcheck whether the container is healthy or not. This can be configured inside `docker-compose.yml` or `docker-compose.stack.yml`.
 
 ## Test
 
@@ -127,7 +127,7 @@ To do basic tests of the structure of the container use the `docker-compose.test
 
 For more info see [container-test](https://github.com/RagedUnicorn/docker-container-test).
 
-Tests can also be run by category such as command, fileExistence and metadata tests by starting single services in `docker-compose.test.yml`
+Tests can also be run by category such as command, fileExistence and metadata tests by starting single services in `docker-compose.test.yml`.
 
 ```
 # basic file existence tests
