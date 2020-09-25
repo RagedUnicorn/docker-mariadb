@@ -162,8 +162,8 @@ By default the launchscript `/docker-entrypoint.sh` will not be used to start th
 
 ## Links
 
-Alpine Linux packages database
-- https://pkgs.alpinelinux.org/packages
+Ubuntu packages database
+- http://packages.ubuntu.com/
 
 ## License
 
