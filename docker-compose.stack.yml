@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.8'
 services:
   mariadb:
     image: ragedunicorn/mariadb:1.2.0-stable
