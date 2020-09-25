@@ -1,4 +1,4 @@
-FROM alpine:3.11.3
+FROM ubuntu:groovy
 
 LABEL com.ragedunicorn.maintainer="Michael Wiesendanger <michael.wiesendanger@gmail.com>"
 
@@ -16,9 +16,13 @@ ARG MARIADB_APP_PASSWORD=app
 ARG MARIADB_ROOT_PASSWORD=root
 
 ENV \
-  MARIADB_SERVER_VERSION=10.4.12-r0 \
-  MARIADB_CLIENT_VERSION=10.4.12-r0 \
-  SU_EXEC_VERSION=0.2-r1
+  MARIADB_VERSION=1:10.3.24-2 \
+  WGET_VERSION=1.20.3-1ubuntu1 \
+  CA_CERTIFICATES_VERSION=20200601 \
+  DIRMNGR_VERSION=2.2.20-1ubuntu1 \
+  GOSU_VERSION=1.10 \
+  GPG_VERSION=2.2.20-1ubuntu1 \
+  GPG_AGENT_VERSION=2.2.20-1ubuntu1
 
 ENV \
   MARIADB_USER="${MARIADB_USER}" \
@@ -28,17 +32,49 @@ ENV \
   MARIADB_APP_PASSWORD="${MARIADB_APP_PASSWORD}" \
   MARIADB_BASE_DIR=/usr \
   MARIADB_DATA_DIR=/var/lib/mysql \
-  MARIADB_RUN_DIR=/run/mysqld
+  MARIADB_RUN_DIR=/var/run/mysqld \
+  GOSU_GPGKEY="B42F6819007F00F88E364FD4036A9C25BF357DD4"
 
 # explicitly set user/group IDs
-RUN addgroup -S "${MARIADB_GROUP}" -g 9999 && adduser -S -G "${MARIADB_GROUP}" -u 9999 "${MARIADB_USER}"
+RUN groupadd -g 9999 -r "${MARIADB_USER}" && useradd -u 9999 -r -g "${MARIADB_GROUP}" "${MARIADB_USER}"
 
 RUN \
   set -ex; \
-  apk add --no-cache \
-    su-exec="${SU_EXEC_VERSION}" \
-    mariadb="${MARIADB_SERVER_VERSION}" \
-    mariadb-client="${MARIADB_CLIENT_VERSION}"
+  apt-get update && apt-get install -y --no-install-recommends \
+    dirmngr="${DIRMNGR_VERSION}" \
+    ca-certificates="${CA_CERTIFICATES_VERSION}" \
+    wget="${WGET_VERSION}" \
+    gpg="${GPG_VERSION}" \
+    gpg-agent="${GPG_AGENT_VERSION}" \
+    mariadb-server="${MARIADB_VERSION}" \
+    mariadb-client="${MARIADB_VERSION}" && \
+  dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')" && \
+  if ! wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-${dpkgArch}"; then \
+    echo >&2 "Error: Failed to download Gosu binary for '${dpkgArch}'"; \
+    exit 1; \
+  fi && \
+  if ! wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-${dpkgArch}.asc"; then \
+    echo >&2 "Error: Failed to download transport armor file for Gosu - '${dpkgArch}'"; \
+    exit 1; \
+  fi && \
+  export GNUPGHOME && \
+  GNUPGHOME="$(mktemp -d)" && \
+  for server in \
+    hkp://p80.pool.sks-keyservers.net:80 \
+    hkp://keyserver.ubuntu.com:80 \
+    hkp://pgp.mit.edu:80 \
+  ;do \
+    echo "Fetching GPG key ${GOSU_GPGKEY} from $server"; \
+    gpg --keyserver "$server" --recv-keys "${GOSU_GPGKEY}" && found=yes && break; \
+  done && \
+  gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu && \
+  rm -rf "${GNUPGHOME}" /usr/local/bin/gosu.asc && \
+  chmod +x /usr/local/bin/gosu && \
+  gosu nobody true && \
+  apt-get purge -y --auto-remove ca-certificates wget dirmngr gpg gpg-agent && \
+  rm -rf /var/lib/apt/lists/*
+
+
 
 # add custom mysql config
 COPY config/my.cnf config/mysqld_charset.cnf /etc/mysql/

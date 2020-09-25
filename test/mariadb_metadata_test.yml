@@ -13,7 +13,7 @@ metadataTest:
     - key: 'MARIADB_DATA_DIR'
       value: '/var/lib/mysql'
     - key: 'MARIADB_RUN_DIR'
-      value: '/run/mysqld'
+      value: '/var/run/mysqld'
   labels:
     - key: 'com.ragedunicorn.maintainer'
       value: 'Michael Wiesendanger <michael.wiesendanger@gmail.com>'

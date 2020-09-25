@@ -1,54 +1,49 @@
-#!/bin/sh
+#!/bin/bash
 # @author Michael Wiesendanger <michael.wiesendanger@gmail.com>
 # @description launch script for mariadb
 
-# abort when trying to use unset variable
-set -o nounset
+set -euo pipefail
 
 mariadb_root_password="/run/secrets/com.ragedunicorn.mariadb.root_password"
 mariadb_app_user="/run/secrets/com.ragedunicorn.mariadb.app_user"
 mariadb_app_password="/run/secrets/com.ragedunicorn.mariadb.app_user_password"
 
-create_data_dir() {
+function create_data_dir() {
   echo "$(date) [INFO]: Creating data directory ${MARIADB_DATA_DIR} and setting permissions"
   mkdir -p "${MARIADB_DATA_DIR}"
   chmod -R 0700 "${MARIADB_DATA_DIR}"
   chown -R "${MARIADB_USER}":"${MARIADB_GROUP}" "${MARIADB_DATA_DIR}"
 }
 
-create_run_dir() {
+function create_run_dir() {
   echo "$(date) [INFO]: Creating run directory ${MARIADB_RUN_DIR} and setting permissions"
   mkdir -p "${MARIADB_RUN_DIR}"
   chown -R "${MARIADB_USER}":"${MARIADB_GROUP}" "${MARIADB_RUN_DIR}"
 }
 
 # replicating what mysql_secure_installation is doing
-mysql_secure() {
+function mysql_secure() {
   echo "$(date) [INFO]: Running MariaDB secure installation"
   # set password for root user
   mysql -e "UPDATE mysql.user SET Password = PASSWORD('${mariadb_root_password}') WHERE User = 'root'"
-  # remove anonymous user
-  mysql -e "DROP USER ''@'localhost'"
-  # remove hostname anonymous user
-  mysql -e "DROP USER ''@'$(hostname)'"
   # remove demo database
   mysql -e "DROP DATABASE test"
   # flush changes
   mysql -e "FLUSH PRIVILEGES"
 }
 
-set_init_done() {
+function set_init_done() {
   touch "${MARIADB_DATA_DIR}/.init"
   echo "$(date) [INFO]: Init script done"
 }
 
-init() {
+function init() {
   if [ -f  "${MARIADB_DATA_DIR}/.init" ]; then
     echo "$(date) [INFO]: Init script already run - starting MariaDB"
     # check if run directory exists
     create_run_dir
     # start mariadb in foreground with base- and datadir set
-    exec su-exec "${MARIADB_USER}" /usr/bin/mysqld_safe  --basedir="${MARIADB_BASE_DIR}" --datadir="${MARIADB_DATA_DIR}"
+    exec gosu "${MARIADB_USER}" /usr/bin/mysqld_safe  --basedir="${MARIADB_BASE_DIR}" --datadir="${MARIADB_DATA_DIR}"
   else
     echo "$(date) [INFO]: First time setup - running init script"
     create_data_dir
@@ -121,7 +116,7 @@ init() {
     set_init_done
 
     # start mariadb in foreground
-    exec su-exec "${MARIADB_USER}" /usr/bin/mysqld_safe --basedir="${MARIADB_BASE_DIR}" --datadir="${MARIADB_DATA_DIR}"
+    exec gosu "${MARIADB_USER}" /usr/bin/mysqld_safe --basedir="${MARIADB_BASE_DIR}" --datadir="${MARIADB_DATA_DIR}"
   fi
 }
 

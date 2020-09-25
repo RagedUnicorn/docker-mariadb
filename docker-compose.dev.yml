@@ -9,7 +9,7 @@ services:
       - "3306:3306"
     stdin_open: true
     tty: true
-    entrypoint: /bin/sh
+    entrypoint: /bin/bash
     labels:
       com.ragedunicorn.mariadb.environment: "dev"
       com.ragedunicorn.mariadb.description: "MariaDB"
